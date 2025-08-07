@@ -15,15 +15,15 @@
 	
 if test $# -ne 1
 		then
-		echo "Should have one argument: path to the target directory, e.g."
-		echo "  /cygdrive/i/NINA/SV705C/2025-07-22/\"NGC 7331\""
+		echo -e "\nShould have one argument: CAMERA/DATE/TARGET, e.g."
+		echo -e "  SV705C/2025-07-22/\"NGC 7331\"\n"
 		exit
 		fi
 
 # Reading the global parameters:
 source $(dirname "$0")/config.h
 
-cd "$1"
+cd "$ROOT_DIR/$1"
 ROOT=`pwd`
 
 # Detecting the per-camera master_bias file:
@@ -52,8 +52,8 @@ requires $version
 setext $ext
 convert flat -out=../process
 cd ../process
-calibrate flat -bias=../../../$BIAS
-stack pp_flat rej 3 3 -norm=mul
+calibrate flat_ -bias=../../../$BIAS
+stack pp_flat_ rej 3 3 -norm=mul
 EOF
 if test ! -f ../process/pp_flat_stacked.$ext
 	then

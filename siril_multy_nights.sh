@@ -97,13 +97,13 @@ while read DIR
 					exit 1
 				fi
 			cd ../FlatWizard/FLAT
-			cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >output.log <<EOF
+			cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >../output.log <<EOF
 requires $version
 setext $ext
 convert flat -out=../process
 cd ../process
-calibrate flat -bias=../../../$BIAS
-stack pp_flat rej 3 3 -norm=mul
+calibrate flat_ -bias=../../../$BIAS
+stack pp_flat_ rej 3 3 -norm=mul
 close
 EOF
 			if test ! -f ../process/pp_flat_stacked.$ext
@@ -133,10 +133,10 @@ calibrate light_ -bias=../../../$BIAS -flat=../../pp_flat_stacked -cfa -equalize
 close
 EOF
 
-	for name in process/pp_light_*$ext
+	for name in process/pp_light_*.$ext
 		do
 		i=$(($i + 1))
-		mv $name "$DEST"/pp_light_$(printf "%05d" $i)$ext
+		mv $name "$DEST"/pp_light_$(printf "%05d" $i).$ext
 		done
 
 
@@ -167,7 +167,7 @@ EOF
 
 cd ..
 echo
-if test -f $RESULT$ext
+if test -f $RESULT.$ext
 	then
 	echo "Success!"
 	else
