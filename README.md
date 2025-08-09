@@ -16,12 +16,14 @@ The scripts are developed for a specific setup, but can be adopted to other setu
 
 The scripts will process "FlastWizard / Flat" images into a pp_flat_stacked.fits file for the given session the first time you run the script. Next time, it will detect the stacked file, and will skip the flats stacking step.
 
+All the detailed output from siril-cli goes inside output.log file inside the sessions' folder.
+
 ## The current scripts:
-- list_objects.sh : lists all the imaging sessions, organized by target and camera. It provides the total exposure (also the number of shots, and individual shot exposure) for each night for each target, and also the cumulative exposure across multiple nights for the same target/camera.
-- siril_1night.sh : processing one session for a specific camera, target , and date - for broadband imaging.
-- narrow_1night.sh : same, but for dual narrow band imaging. It uses the operations from the HaOIII Siril script. Produces both Ha and OIII with binning=2x2 (can be changed).
-- siril_multy_nights.sh : processing broadband imaging from multiple nights for the same camera and target. With an optional -n argument, will process together both broad and narrowband images from multiple nights.
-- config.h : contains a few global settings for the scripts.
+- **list_objects.sh** : lists all the imaging sessions, organized by target and camera. It provides the total exposure (also the number of shots, and individual shot exposure) for each night for each target, and also the cumulative exposure across multiple nights for the same target/camera.
+- **siril_1night.sh** : processing one session for a specific camera, target , and date - for broadband imaging.
+- **narrow_1night.sh** : same, but for dual narrow band imaging. It uses the operations from the HaOIII Siril script. Produces both Ha and OIII with binning=2x2 (can be changed).
+- **siril_multy_nights.sh** : processing broadband imaging from multiple nights for the same camera and target. With an optional -n argument, will process together both broad and narrowband images from multiple nights.
+- **config.h** : contains a few global settings for the scripts.
 
 ## Installation (assuming WSL)
 
