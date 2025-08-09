@@ -6,9 +6,9 @@
 
 
 # Make sure siril-cli binary is on the $PATH
- if ! `which siril-cli&>/dev/null`
+ if ! `which siril-cli.exe&>/dev/null`
 	then
-	echo "Error: siril-cli is not on the $PATH !"
+	echo "Error: siril-cli.exe is not on the $PATH !"
 	exit 1
 	fi
 	

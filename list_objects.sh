@@ -7,49 +7,61 @@
 # Reading the global parameters:
 source $(dirname "$0")/config.h
 
-if test $# -ne 1
+cd $ROOT_DIR >/dev/null
+
+# Find all the cameras:
+CAMERAS=$(find . -mindepth 1 -maxdepth 1 -type d|cut -d/ -f2|sort|uniq|grep -ivE "$EXCLUDE")
+if test -z "$CAMERAS"
 	then
-	echo -e "\nOne argument: camera name"
-	echo -e "\n Available camera names:\n"
-	find "$ROOT_DIR" -mindepth 1 -maxdepth 1 -type d|rev|cut -d/ -f1|rev|sort|grep -iv targets|grep -iv templates|grep -iv logs
-	echo
+	echo -e "\nNo cameras; exiting\n"
 	exit
 	fi
+echo -e "\n *** All cameras ***"
+echo "$CAMERAS"
 
-CAMERA=$1
+# Find all the targets:
+TARGETS=$(find . -mindepth 3 -maxdepth 3 -type d|cut -d/ -f4|sort|uniq|grep -ivE "$EXCLUDE")
+if test -z "$TARGETS"
+	then
+	echo -e "\nNo targets; exiting\n"
+	exit
+	fi
+echo -e "\n *** All targets ***"
+echo "$TARGETS"
 
-# Going to the root (camera) directory:
-cd "$ROOT_DIR"/"$CAMERA"
-
-find . -mindepth 2 -maxdepth 2 -type d|grep "^./2"|cut -d/ -f3|sort|grep -vi Bias|grep -vi FlatWizard|grep -vi snapshot|grep -vi process|sort|uniq >/tmp/list
-
+# Large loop over all the targets:
 while read TARGET
 	do
-	echo -e "\n*** Target $TARGET ***"
-	TOTAL_SUM=0
-	for DIR in  20*/"$TARGET"
+	echo -e "\n ======= $TARGET ======="
+
+	# For given $target, find all the cameras:
+	cameras_target=$(find . -mindepth 3 -maxdepth 3 -type d -iwholename \*\/"$TARGET"|cut -d/ -f2|sort|uniq|grep -ivE "$EXCLUDE")	
+	if test -z "$cameras_target"
+		then
+		continue
+		fi
+	
+	while read CAMERA
 		do
-			DATE=$(echo "$DIR"|cut -d/ -f1)
-			find $DATE/"$TARGET"/LIGHT/ -name 20\* > /tmp/list2
+		echo -e "   * Camera: $CAMERA *"		
+		TOTAL_SUM=0
+		# Loop over all sessions for given CAMERA and TARGET:
+		for DIR in  "$CAMERA"/20*/"$TARGET"
+			do
+			DATE=$(echo "$DIR"|cut -d/ -f2)
+			find "$CAMERA/$DATE/$TARGET/LIGHT/" -name 20\* > /tmp/list2
 			NSHOTS=$(cat /tmp/list2| wc -l)
 			EXPOSURE=$(head -n1 /tmp/list2 |rev|cut -b 12-|cut -d_ -f1|rev)
 			TOTAL=$(echo $NSHOTS $EXPOSURE | awk '{printf $1*$2/3600}')
 			TOTAL_SUM=$(echo $TOTAL_SUM $TOTAL|awk '{printf $1+$2}')
-			
-			# Finding the extension for light images:
-#			LIGHT_EXT=$(/usr/bin/ls -1 $DATE/"$TARGET"/LIGHT/20*|head -n1|rev|cut -d. -f1|rev)#
-			#NSHOTS=$( /usr/bin/ls -1 $DATE/"$TARGET"/LIGHT/20*.$LIGHT_EXT|wc -l)
-#			ONE=$(/usr/bin/ls -1 $DATE/"$TARGET"/LIGHT/20*.$LIGHT_EXT|head -n1)
-#			EXPOSURE=$(echo $ONE |rev|cut -b 12-|cut -d_ -f1|rev)
-#			TOTAL=$(echo $NSHOTS $EXPOSURE | awk '{printf $1*$2/3600}')
-#			TOTAL_SUM=$(echo $TOTAL_SUM $TOTAL|awk '{printf $1+$2}')
-			echo "$CAMERA/$DATE/\"$TARGET\" : $NSHOTS shots ${EXPOSURE}s each; total exposure=$TOTAL hours"
-		done
-	echo "Cumulative exposure = $TOTAL_SUM hours"
-	
-	done < /tmp/list
+			echo "$CAMERA/$DATE/\"$TARGET\" : $NSHOTS shots ${EXPOSURE}s each; $TOTAL hours"
+			done
+		echo -e "Cumulative exposure = $TOTAL_SUM hours\n"
+		done <<< "$cameras_target"
 
-
+	# TARGETS loop
+	done <<< "$TARGETS"
 
 echo
+
 cd - >/dev/null
