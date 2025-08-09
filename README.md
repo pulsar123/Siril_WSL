@@ -5,7 +5,7 @@ In particular, these scripts can help you to manage your growing collection of a
 
 The scripts are developed for a specific setup, but can be adopted to other setups.
 
-This is the default setup:
+## The default setup:
  - OSC cameras with either UV/IR or dual narrow band filters.
  - All the images are organized by the "Camera + filter" combination (I call it simply "Camera"). E.g. SV705C (with UV/IR filter), and SV705Cn (with the narrow band filter).
  - The images are orqanized in folders with the following structure: CAMERA / DATE / TARGET
@@ -16,14 +16,14 @@ This is the default setup:
 
 The scripts will process "FlastWizard / Flat" images into a pp_flat_stacked.fits file for the given session the first time you run the script. Next time, it will detect the stacked file, and will skip the flats stacking step.
 
-The current scripts are:
+## The current scripts:
 - list_objects.sh : lists all the imaging sessions, organized by target and camera. It provides the total exposure (also the number of shots, and individual shot exposure) for each night for each target, and also the cumulative exposure across multiple nights for the same target/camera.
 - siril_1night.sh : processing one session for a specific camera, target , and date - for broadband imaging.
 - narrow_1night.sh : same, but for dual narrow band imaging. It uses the operations from the HaOIII Siril script. Produces both Ha and OIII with binning=2x2 (can be changed).
 - siril_multy_nights.sh : processing broadband imaging from multiple nights for the same camera and target. With an optional -n argument, will process together both broad and narrowband images from multiple nights.
 - config.h : contains a few global settings for the scripts.
 
-Installation (assuming WSL)
+## Installation (assuming WSL)
 
 Open the WSL terminal. Install the package using the git clone command, say in the home directory. Update the PATH variable inside the ~/.bashrc file to point to the installation directory, e.g. (replace USER with your user name):
 
@@ -42,9 +42,9 @@ Limitations:
  - Camera names (which are NINA profile names) should not contain spaces. So use Canon6D, not Canon 6D, for the profiles.
  - Folder names (cameras, targets, LIGHT, process etc) and file names (image names etc) are case sensitive. So e.g. image.fits is different from image.FITS.
 
-Here is a typical output from list_objects.sh command:
+## A typical output from list_objects.sh command:
 
-
+```
  *** All cameras ***
 Canon6D
 SV705C
@@ -119,3 +119,4 @@ Cumulative exposure = 9.16667 hours
    * Camera: SV705Cn *
 SV705Cn/2025-07-23/"Pillars" : 29 shots 300.00s each; 2.41667 hours
 Cumulative exposure = 2.41667 hours
+```
