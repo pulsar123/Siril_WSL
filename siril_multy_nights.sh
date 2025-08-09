@@ -4,20 +4,12 @@
 #
 # 
 
-
-# Make sure siril-cli binary is on the $PATH
- if ! `which siril-cli.exe&>/dev/null`
-	then
-	echo "Error: siril-cli.exe is not on the $PATH !"
-	exit 1
-	fi
-	
 if test $# -lt 2
 		then
 		echo -e "\n Syntax:\n"
 		echo " $(basename $0)  [-n]  CAMERA  TARGET"
 		echo -e "\n Here:"
-		echo -e "\tCAMERA \t- camera name (e.g. SV905C)"
+		echo -e "\tCAMERA \t- camera name (e.g. SV705C)"
 		echo -e "\tTARGET \t- target name (e.g. \"NGC 7331\")"
 		echo -e "\t-n \t- an optional argument, to process both"
 		echo -e "\t\t the broadband and narrowband (with the camera"

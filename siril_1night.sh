@@ -2,21 +2,11 @@
 #
 # Processing images from a single night (same camera and filter) session
 #
-# One argument - a path to the root session directory, e.g.
-#   /cygdrive/i/NINA/SV705C/2025-07-22/"NGC 7331"
-#
 
-# Make sure siril-cli binary is on the $PATH
- if ! `which siril-cli.exe&>/dev/null`
-	then
-	echo "Error: siril-cli.exe is not on the $PATH !"
-	exit 1
-	fi
-	
 if test $# -ne 1
 		then
-		echo -e "\nShould have one argument: CAMERA/DATE/TARGET, e.g."
-		echo -e "  SV705C/2025-07-22/\"NGC 7331\"\n"
+		echo "Should have one argument: camera/date/target, e.g."
+		echo "  SV705C/2025-07-22/\"NGC 7331\""
 		exit
 		fi
 

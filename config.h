@@ -3,7 +3,7 @@
 # Root directory for the fits files
 ROOT_DIR=/mnt/i/NINA
 
-version=$(siril.exe --version |awk '{print $2}')
+version=1.2
 ext=fits
 
 # Additional arguments to pass to register command:

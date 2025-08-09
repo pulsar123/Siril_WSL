@@ -2,31 +2,19 @@
 #
 # Processing images from a single night (same camera and filter) session
 #
-# One argument - a path to the root session directory, e.g.
-#   /cygdrive/i/NINA/SV705C/2025-07-22/"NGC 7331"
-#
 
-MINPAIRS=5
-
-# Make sure siril-cli.exe binary is on the $PATH
- if ! `which siril-cli.exe&>/dev/null`
-	then
-	echo "Error: siril-cli.exe is not on the $PATH !"
-	exit 1
-	fi
-	
 if test $# -ne 1
 		then
-		echo "Should have one argument: path to the target directory, e.g."
-		echo "  /cygdrive/i/NINA/SV705C/2025-07-22/\"NGC 7331\""
-		exit 1
+		echo "Should have one argument: camera/date/target, e.g."
+		echo "  SV705Cn/2025-07-22/\"NGC 7331\""
+		exit
 		fi
-
-cd "$1"
-ROOT=`pwd`
 
 # Reading the global parameters:
 source $(dirname "$0")/config.h
+
+cd "ROOT_DIR/$1"
+ROOT=`pwd`
 
 # Detecting the per-camera master_bias file:
 if test $(/usr/bin/ls -1 ../../master_bias_*.fit |head -n1)
