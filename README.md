@@ -18,11 +18,14 @@ The scripts will process "FlastWizard / Flat" images into a pp_flat_stacked.fits
 
 All the detailed output from siril-cli goes inside output.log file inside the sessions' folder.
 
+Folder names (cameras, targets, LIGHT, process etc) and file names (image names etc) are case sensitive. So e.g. image.fits is different from image.FITS.
+
 ## The current scripts:
 - **list_objects.sh** : lists all the imaging sessions, organized by target and camera. It provides the total exposure (also the number of shots, and individual shot exposure) for each night for each target, and also the cumulative exposure across multiple nights for the same target/camera.
 - **siril_1night.sh** : processing one session for a specific camera, target , and date - for broadband imaging.
 - **narrow_1night.sh** : same, but for dual narrow band imaging. It uses the operations from the HaOIII Siril script. Produces both Ha and OIII with binning=2x2 (can be changed).
 - **siril_multy_nights.sh** : processing broadband imaging from multiple nights for the same camera and target. With an optional -n argument, will process together both broad and narrowband images from multiple nights.
+- **narrow_multy_nights.sh** : same, but for dual narrow band imaging. It uses the operations from the HaOIII Siril script. Produces both Ha and OIII with binning=2x2 (can be changed).
 - **config.h** : contains a few global settings for the scripts.
 
 ## Installation (assuming WSL)
@@ -40,9 +43,9 @@ Modify config.h file: update the ROOT_DIR location (this is the path to the root
 
 You can also install this under Cygwin, but in my experience WSL works much faster, especially the list_objects.sh command which does a lot of file reading.
 
-Limitations:
+## Limitations:
  - Camera names (which are NINA profile names) should not contain spaces. So use Canon6D, not Canon 6D, for the profiles.
- - Folder names (cameras, targets, LIGHT, process etc) and file names (image names etc) are case sensitive. So e.g. image.fits is different from image.FITS.
+ - Siril-cli is supposed to be installed in this default location: C:\Program Files\SiriL\bin\siril-cli.exe . 
 
 ## A typical output from list_objects.sh command:
 
