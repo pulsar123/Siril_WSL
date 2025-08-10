@@ -12,7 +12,7 @@ The scripts are developed for a specific setup, but can be adopted to other setu
  - Inside each "CAMERA / DATE / TARGET" folder, there is LIGHT folder containing the light images (fits files, cr2 files etc). There is also "FlastWizard / Flat" folder containing the flats from that night.
  - I am not using Darks (my cameras don't need them). You should provide one master Bias file inside each CAMERA folder. It should have a name starting with master_bias_***.
  - The above folders structure is produced automatically inside NINA image aquisition software. I create a separate NINA profile for each CAMERA (that is, for each camera + filter combination; I have two cameras and 2 filters, so I have 4 profiles).
- - Here is an example of one such NINA image naming scheme (using SV705C camera as an example): SV705C\$$DATEMINUS12$$\$$TARGETNAME$$\$$IMAGETYPE$$\$$DATETIME$$_$$EXPOSURETIME$$s_$$FRAMENR$$ . This profile will lautomatically create all the required folders, including the "FlastWizard / Flat" folder when using the Flat wizard to create flats.
+ - Here is an example of one such NINA image naming scheme (using SV705C camera as an example): ``SV705C\$$DATEMINUS12$$\$$TARGETNAME$$\$$IMAGETYPE$$\$$DATETIME$$_$$EXPOSURETIME$$s_$$FRAMENR$$`` . This profile will lautomatically create all the required folders, including the "FlastWizard / Flat" folder when using the Flat wizard to create flats.
 
 The scripts will process "FlastWizard / Flat" images into a pp_flat_stacked.fits file for the given session the first time you run the script. Next time, it will detect the stacked file, and will skip the flats stacking step.
 
@@ -33,11 +33,10 @@ Folder names (cameras, targets, LIGHT, process etc) and file names (image names 
 Open the WSL terminal. Install the package using the git clone command, say in the home directory. Update the PATH variable inside the ~/.bashrc file to point to the installation directory, e.g. (replace USER with your user name):
 
 export PATH=/home/USER/Siril_WSL:$PATH
-cd
 
 The scripts can be accessed from Windows (explorer etc) using this path (again, replace USER with your user name):
 
-\\wsl.localhost\Ubuntu\home\USER\Siril_WSL
+``\\wsl.localhost\Ubuntu\home\USER\Siril_WSL``
 
 Modify config.h file: update the ROOT_DIR location (this is the path to the root of your images folder; ideally it should be on a fast SSD disk). If you have some folder names inside ROOT_DIR which show up incorrectly as a camera name or a target name, add those exceptions to the EXCLUDE variable definition.
 
