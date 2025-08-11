@@ -21,7 +21,7 @@ All the detailed output from siril-cli goes inside output.log file inside the se
 Folder names (cameras, targets, LIGHT, process etc) and file names (image names etc) are case sensitive. So e.g. image.fits is different from image.FITS.
 
 ## The current scripts:
-- **list_objects.sh** : lists all the imaging sessions, organized by target and camera. It provides the total exposure (also the number of shots, and individual shot exposure) for each night for each target, and also the cumulative exposure across multiple nights for the same target/camera.
+- **list_objects.sh** : lists all the imaging sessions, organized by target and camera. It provides the total exposure (also the number of shots, and individual shot exposure) for each night for each target, and also the cumulative exposure across multiple nights for the same target/camera. Now it can do 4 different actions: a brief listing of all targets and cameras; a detailed listing of all the sessions for a specific camera (-c); a detailed listing of all the sessions for a specific target (-t); and the detailed listing of all the sessions for all cameras and targets (-a).
 - **siril_1night.sh** : processing one session for a specific camera, target , and date - for broadband imaging.
 - **narrow_1night.sh** : same, but for dual narrow band imaging. It uses the operations from the HaOIII Siril script. Produces both Ha and OIII with binning=2x2 (can be changed).
 - **siril_multy_nights.sh** : processing broadband imaging from multiple nights for the same camera and target. With an optional -n argument, will process together both broad and narrowband images from multiple nights.
