@@ -16,48 +16,10 @@ source $(dirname "$0")/config.h
 cd "ROOT_DIR/$1"
 ROOT=`pwd`
 
-# Detecting the per-camera master_bias file:
-if test $(/usr/bin/ls -1 ../../master_bias_*.fit |head -n1)
-  then 
-	BIAS=$(basename $(/usr/bin/ls -1 ../../master_bias_*.fit |head -n1))
-	echo "Found bias file: $BIAS"
-  else 
-	echo "No bias file in the root camera directory; exiting"
-	exit 1
-  fi
+source $(dirname "$0")/bias_flat.sh
 
+echo -e "\nProcessing lights..."
 
-# Processing flats if needed:
-if test ! -f ../pp_flat_stacked.$ext
-then
-echo "Creating the file pp_flat_stacked.$ext ..."
-if test ! -d ../FlatWizard/FLAT
-	then
-	echo "No directory FlatWizard/FLAT; exiting"
-	exit
-	fi
-cd ../FlatWizard/FLAT
-cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >output.log <<EOF
-requires $version
-setext $ext
-convert flat -out=../process
-cd ../process
-calibrate flat -bias=../../../$BIAS
-stack pp_flat rej 3 3 -norm=mul
-EOF
-if test ! -f ../process/pp_flat_stacked.$ext
-	then
-	echo "Failed to create file pp_flat_stacked.$ext; exiting"
-	exit 1
-	fi
-mv ../process/pp_flat_stacked.$ext ../..
-rm -Rf ../process
-cd "$ROOT" >/dev/null
-else
-echo "Found master flat file pp_flat_stacked.$ext"
-fi
-
-echo "Processing lights..."
 cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >output.log <<EOF
 requires $version
 setext $ext
