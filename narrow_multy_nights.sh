@@ -67,7 +67,7 @@ convert light -out=../process
 cd ../process
 
 # Calibrate Light Frames
-calibrate light_ -bias=../../../$BIAS -flat=../../pp_flat_stacked -cfa -equalize_cfa
+calibrate light_ $BIAS_ARGUMENT $FLAT_ARGUMENT -cfa -equalize_cfa
 EOF
 
 	for name in process/pp_light_*.$ext
@@ -84,6 +84,8 @@ EOF
 
 echo -e "\n*** Processing all nights ***\n"
 cd "$DEST"
+rm -f ../result_Ha.$ext ../result_OIII.$ext
+
 cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >../output.log <<EOF
 requires $version
 setext $ext

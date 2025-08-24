@@ -13,12 +13,13 @@ if test $# -ne 1
 # Reading the global parameters:
 source $(dirname "$0")/config.h
 
-cd "ROOT_DIR/$1"
+cd "$ROOT_DIR/$1"
 ROOT=`pwd`
 
 source $(dirname "$0")/bias_flat.sh
 
 echo -e "\nProcessing lights..."
+rm -f result_Ha.$ext result_OIII.$ext
 
 cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >output.log <<EOF
 requires $version
@@ -30,7 +31,7 @@ convert light -out=../process
 cd ../process
 
 # Calibrate Light Frames
-calibrate light_ -bias=../../../$BIAS -flat=../../pp_flat_stacked -cfa -equalize_cfa
+calibrate light_ $BIAS_ARGUMENT $FLAT_ARGUMENT -cfa -equalize_cfa
 
 # Extract Ha and OIII
 seqextract_HaOIII pp_light_ -resample=oiii

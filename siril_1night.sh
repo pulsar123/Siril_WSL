@@ -18,6 +18,8 @@ ROOT=`pwd`
 
 source $(dirname "$0")/bias_flat.sh
 
+rm -f result.$ext
+
 echo -e "\nProcessing lights..."
 cmd.exe /c 'C:\Program Files\SiriL\bin\siril-cli.exe' -s - -d . >output.log <<EOF
 requires $version
@@ -28,7 +30,7 @@ convert light -out=../process
 cd ../process
 
 # Pre-process Light Frames
-calibrate light_ -bias=../../../$BIAS -flat=../../pp_flat_stacked $BPM_ARGUMENT -cfa -equalize_cfa -debayer
+calibrate light_ $BIAS_ARGUMENT $FLAT_ARGUMENT $BPM_ARGUMENT -cfa -equalize_cfa -debayer
 
 # Align lights
 register pp_light_ $REGISTER_ARGS

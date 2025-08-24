@@ -81,7 +81,7 @@ convert light -out=../process
 cd ../process
 
 # Pre-process Light Frames
-calibrate light_ -bias=../../../$BIAS -flat=../../pp_flat_stacked -cfa -equalize_cfa -debayer
+calibrate light_ $BIAS_ARGUMENT $FLAT_ARGUMENT -cfa -equalize_cfa -debayer
 close
 EOF
 
@@ -103,6 +103,8 @@ if test $BOTH -eq 0
 	else
 	RESULT=result_both
 	fi
+	
+rm -f ../$RESULT.$ext
 
 echo -e "\n*** Processing all nights ***\n"
 cd "$DEST"
